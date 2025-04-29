@@ -15,13 +15,15 @@ characterCount s = length s
 -- MAIN
 main :: IO()
 main = do
-  putStrLn "Sentence Analyzer:\n"
+  putStrLn "=================="
+  putStrLn "Sentence Analyzer:"
+  putStrLn "==================\n"
   putStr "Total Word Count: "
-  print (wordCountTotal sentence)
-  putStrLn "Word Count per Word: "
-  putStr (unlines (wordCountEach sentence))
+  print (wordCountTotal sentence) 
   putStr "Total Character Count: "
   print (characterCount sentence)
+  putStrLn "Word Count per Word: "
+  putStr (unlines (wordCountEach sentence))
 
 sentence :: String
 sentence = "The dog is running from the police. The dog is fast but the police are faster."

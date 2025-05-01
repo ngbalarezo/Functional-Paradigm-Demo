@@ -1,16 +1,24 @@
-import Data.List (intercalate, group, sort)
+import Data.Char(isAlphaNum, toLower)
+import Data.List (intercalate, group, sort, sortBy)
+import Data.Ord (comparing)
 
-wordCountTotal :: String -> Int
-wordCountTotal s = length $ words s
+wordCount :: String -> Int
+wordCount s = length $ words s
+
+characterCount :: String -> Int
+characterCount s = length s
 
 formatTuples :: [(String, Int)] -> [String]
 formatTuples a = map (\(w, c) -> "  " ++ w ++ ", " ++ show c) a
 
-wordCountEach :: String -> [String]
-wordCountEach s = formatTuples $ map (\w -> (head w, length w)) $ group $ sort $ words s
-
-characterCount :: String -> Int
-characterCount s = length s
+wordFrequency :: String -> [String]
+wordFrequency s = formatTuples 
+                $ sortBy (flip (comparing snd)) 
+                $ map (\w -> (head w, length w)) 
+                $ group 
+                $ sort 
+                $ words
+                $ map (\c -> if isAlphaNum c then toLower c else ' ') s
 
 -- MAIN
 main :: IO()
@@ -19,11 +27,11 @@ main = do
   putStrLn "Sentence Analyzer:"
   putStrLn "==================\n"
   putStr "Total Word Count: "
-  print (wordCountTotal sentence) 
+  print (wordCount sentence) 
   putStr "Total Character Count: "
   print (characterCount sentence)
-  putStrLn "Word Count per Word: "
-  putStr (unlines (wordCountEach sentence))
+  putStrLn "Word Frequency: "
+  putStr (unlines (wordFrequency sentence))
 
 sentence :: String
 sentence = "The dog is running from the police. The dog is fast but the police are faster."

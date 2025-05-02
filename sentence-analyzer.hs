@@ -1,6 +1,10 @@
-import Data.Char(isAlphaNum, toLower)
-import Data.List (intercalate, group, sort, sortBy)
+import Data.Char (isAlphaNum, toLower)
+import Data.List (group, intercalate, sort, sortBy)
 import Data.Ord (comparing)
+import Text.Regex.Posix (mkRegex, splitRegex)
+
+sentenceCount :: String -> Int
+sentenceCount s = length $ filter (not . null) $ splitRegex (mkRegex "[.!?]+[\\s]*") s
 
 wordCount :: String -> Int
 wordCount s = length $ words s
@@ -26,9 +30,11 @@ main = do
   putStrLn "=================="
   putStrLn "Sentence Analyzer:"
   putStrLn "==================\n"
-  putStr "Total Word Count: "
+  putStr "Sentence Count: "
+  print (sentenceCount sentence)
+  putStr "Word Count: "
   print (wordCount sentence) 
-  putStr "Total Character Count: "
+  putStr "Character Count: "
   print (characterCount sentence)
   putStrLn "Word Frequency: "
   putStr (unlines (wordFrequency sentence))

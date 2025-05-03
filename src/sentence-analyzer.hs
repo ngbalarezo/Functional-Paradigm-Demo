@@ -17,6 +17,11 @@ characterCount s = length s
 removePunctuation :: String -> String
 removePunctuation s = map (\c -> if isAlphaNum c then toLower c else ' ') s 
 
+middleWord :: String -> String
+middleWord s | length (words s) == 1 = head (words s)
+             | length (words s) == 2 = s
+             | otherwise = middleWord $ unwords $ tail $ init $ words $ removePunctuation s
+
 formatTuples :: [(String, Int)] -> [String]
 formatTuples a = map (\(w, c) -> "  " ++ w ++ ", " ++ show c) a
 
@@ -35,10 +40,15 @@ main = do
   putStrLn "=================="
   putStrLn "Sentence Analyzer:"
   putStrLn "==================\n"
+  putStr "Sentence: "
+  print (sentence)
+  putStrLn ""
   putStr "Sentence Count: "
   print (sentenceCount sentence)
   putStr "Word Count: "
-  print (wordCount sentence) 
+  print (wordCount sentence)
+  putStr "Middle Word(s): "
+  print (middleWord sentence)
   putStr "Character Count: "
   print (characterCount sentence)
   putStrLn "Word Frequency: "

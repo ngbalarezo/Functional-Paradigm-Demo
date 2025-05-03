@@ -14,6 +14,9 @@ wordCount s = length $ words s
 characterCount :: String -> Int
 characterCount s = length s
 
+removePunctuation :: String -> String
+removePunctuation s = map (\c -> if isAlphaNum c then toLower c else ' ') s 
+
 formatTuples :: [(String, Int)] -> [String]
 formatTuples a = map (\(w, c) -> "  " ++ w ++ ", " ++ show c) a
 
@@ -24,7 +27,7 @@ wordFrequency s = formatTuples
                 $ group 
                 $ sort 
                 $ words
-                $ map (\c -> if isAlphaNum c then toLower c else ' ') s
+                $ removePunctuation s
 
 -- MAIN
 main :: IO()
